@@ -1,0 +1,70 @@
+// Each time a salesperson sells a car at the
+// Pardeeville New and Used Auto Dealership,
+// a record is created containing the salesperson’s
+// name and the amount of the sale.
+// Sales of new and used cars are kept in separate files,
+// sorted by salesperson ID number.
+// Management has requested a merged file so that
+// all of a salesperson’s sales (both new and used cars)
+// are displayed together. The following code is intended
+// to merge the files.
+start
+   Declarations
+      string newSalesperson
+      num newAmount
+      string usedSalesperson
+      num usedAmount
+      string bothAtEof = "N"
+      num HIGH_ID = 999999
+      InputFile newSales
+      InputFile usedSales
+      OutputFile allSales
+   getReady()
+   while bothAtEof <> "Y"
+      detailLoop()
+   endwhile
+   finish()
+stop 
+
+getReady()
+   open newSales "NewSales.dat"
+   open usedSales "UsedSales.dat"
+   open allSales "AllSales.dat"
+return
+
+readNew()
+   input newSalesperson, newAmount from newSales
+   if eof then
+      newSalesperson = HIGH_ID
+   endif
+return
+
+readUsed()
+   input usedSalesperson, usedAmount from usedSales
+   if eof then
+      usedSalesperson = HIGH_ID
+   endif
+return
+
+checkBoth()
+   if newSalesperson = HIGH_ID AND usedSalesperson = HIGH_NAME then
+      bothAtEof = "Y"
+   endif
+return
+
+detailLoop()
+   if newSalesperson > usedSalesperson then
+      output usedSalesperson, usedAmount to allSales
+      readUsed()
+   else
+      output newSalesperson, newAmount to allSales
+      readNew()
+   endif
+   checkBoth()
+return
+
+finish()
+   close newSales
+   close usedSales
+   close allSales
+return
